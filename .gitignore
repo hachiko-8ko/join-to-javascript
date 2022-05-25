@@ -1,0 +1,8 @@
+/node_modules/*
+/.vscode/*
+/dist_smoke_tests/*
+/tests_out/*
+*.js.map
+*.js
+!gulpfile.js
+!/dist/*
