@@ -84,6 +84,18 @@ export class Test003 extends TestCaseView {
             this.log(test09skip1, true);
             assert(test09skip1.sequenceEqual_q_([2, 3, 4]), 'Take first 3 after skip 1');
 
+            this.log("LINQ doesn't have the ability to iterate through the list skipping every n steps. So I added it.");
+
+            this.log(`[1, 2, 3, 4, 5].step_q_(2) // 1, 3, 5`);
+            const test09step1 = [1, 2, 3, 4, 5].step_q_(2).toArray_q_();
+            this.log(test09step1, true);
+            assert(test09step1.sequenceEqual_q_([1, 3, 5]), 'Step every 2');
+
+            this.log(`[1, 2, 3, 4, 5, 6, 7].step_q_(3) // 1, 4, 7`);
+            const test09step2 = [1, 2, 3, 4, 5, 6, 7].step_q_(3).toArray_q_();
+            this.log(test09step2, true);
+            assert(test09step2.sequenceEqual_q_([1, 4, 7]), 'Step every 3');
+
             this.log(`[1, 2, 3, 4, 5].takeLast_q_(2) // 4,5`);
             const test10 = [1, 2, 3, 4, 5].takeLast_q_(2).toArray_q_();
             this.log(test10, true);

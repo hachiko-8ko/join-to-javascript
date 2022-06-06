@@ -53,6 +53,7 @@ import { singleOrDefault } from '../Queryable/SingleOrDefault';
 import { skip } from '../Queryable/Skip';
 import { skipLast } from '../Queryable/SkipLast';
 import { skipWhile } from '../Queryable/SkipWhile';
+import { step } from '../Queryable/Step';
 import { sum } from '../Queryable/Sum';
 import { take } from '../Queryable/Take';
 import { takeLast } from '../Queryable/TakeLast';
@@ -169,6 +170,7 @@ export class Enumerable<T> implements IterableIterator<T>, IQueryable<T>  {
     skip_q_ = skip;
     skipLast_q_ = skipLast;
     skipWhile_q_ = skipWhile;
+    step_q_ = step;
     sum_q_ = sum;
     take_q_ = take;
     takeLast_q_ = takeLast;
