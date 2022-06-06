@@ -119,6 +119,7 @@ export interface IQueryable<T> {
     skipLast_q_(count: number): Enumerable<T>;
     skipWhile_q_(filterFunction: IPredicate1<T>): Enumerable<T>;
     skipWhile_q_(filterFunction: IPredicate2<T, number>): Enumerable<T>;
+    step_q_(stepCount: number): Enumerable<T>;
     sum_q_(selectFunction?: IFunc1<T, number>): number;
     take_q_(count: number, skip?: number): Enumerable<T>;
     takeLast_q_(count: number): Enumerable<T>;
