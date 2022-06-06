@@ -37,7 +37,7 @@ export class RestartableGenerator<T> implements Iterable<T> {
 }
 export function* cycleGenerator<T>(iter: Iterable<T>, backup: T[]): IterableIterator<T> {
     for (const x of iter) {
-        yield x;
         backup.push(x);
+        yield x;
     }
 }

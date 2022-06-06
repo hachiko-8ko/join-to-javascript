@@ -55,7 +55,7 @@ export function toDictionary<T, TElement>(this: Enumerable<T>, keySelector: IFun
  * toMap_q_: Returns a javascript Map with specified keys and values, based on a keySelector function and an optional element
  * selector function.
  *
- * Not that in general, objects don't make good Map keys.
+ * Note that in general, objects don't make good Map keys.
  *
  * The C# ability to send a non-default equality comparer is not included because javascript maps do not allow custom equality.
  */
@@ -90,7 +90,7 @@ export function toMap<T, TKey, TElement>(this: Enumerable<T>, keySelector: IFunc
  * The C# ability to send a non-default equality comparer is not included because javascript maps do not allow custom equality. Behind the 
  * scenes, this is till using a map.
  * 
- * Not that in general, objects don't make good Map keys.
+ * Note that in general, objects don't make good Map keys.
  */
 export function toLookup<T, TKey, TElement>(this: Enumerable<T>, keySelector: IFunc1<T, TKey>, elementSelector?: IFunc1<T, TElement>): Lookup<TKey, TElement> {
     if (!keySelector) {

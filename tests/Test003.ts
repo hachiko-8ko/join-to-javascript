@@ -79,6 +79,11 @@ export class Test003 extends TestCaseView {
             this.log(test09, true);
             assert(test09.sequenceEqual_q_([1, 2]), 'Take first 2');
 
+            this.log(`[1, 2, 3, 4, 5].take_q_(3,1) // 2,3,4`);
+            const test09skip1 = [1, 2, 3, 4, 5].take_q_(3, 1).toArray_q_();
+            this.log(test09skip1, true);
+            assert(test09skip1.sequenceEqual_q_([2, 3, 4]), 'Take first 3 after skip 1');
+
             this.log(`[1, 2, 3, 4, 5].takeLast_q_(2) // 4,5`);
             const test10 = [1, 2, 3, 4, 5].takeLast_q_(2).toArray_q_();
             this.log(test10, true);
