@@ -1,7 +1,7 @@
 # JOIN to Javascript
 ## Implemention of LINQ to Objects in Javascript/Typescript
 
-JOIN to Javascript allows you to join javascript arrays to other javascript arrays, along with select, order, etc. It also adds a few methods that I wanted to do myself (outer joins are painful and hacky in LINQ so I made better methods).
+JOIN to Javascript allows you to join javascript arrays to other javascript arrays, select, order, etc. It also adds a few methods that I wanted to do myself (outer joins are painful and hacky in LINQ so I made better methods).
 
 Many of these features already exist on the array class, so this is providing little that is new. The difference is that when possible, JOIN defers execution in the same way that LINQ provides deferred execution, waiting until you fetch the data by iterating it, calling toArray(), or fetching a single item. This means, for example, if you fetch `integers.where(row => isPrime(row)).first()` it will halt on the first prime, unlike `integers.filter(row => isPrime(row))[0]` which processes every row in the array.
 
