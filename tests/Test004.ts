@@ -62,9 +62,9 @@ export class Test004 extends TestCaseView {
             assert(test06.sequenceEqual_q_(["A", "B", "C", "A", "B", "C", "A", "B", "C"]), 'Replicate repeats an array');
 
             this.log(`['a', 'b', 1, 2].empty_q_() // create an empty array of the same type as sequence ... note that type means something in typescript but javascript doesn't care`);
-            const test07 = ['a', 'b', 1, 2].empty_q_();
+            const test07 = ['a', 'b', 1, 2].empty_q_().toArray_q_();
             this.log(test07, true);
-            assert(test07.length === 0, 'Empty() returns empty array');
+            assert(test07.length === 0, 'Empty() returns empty enumerable');
 
             this.log(`[1, 2, 3, 4, 5, 6, 7, 8].chunk_q_(3) // break array into chunks of provided size`);
             const test08 = [1, 2, 3, 4, 5, 6, 7, 8].chunk_q_(3).toArray_q_();

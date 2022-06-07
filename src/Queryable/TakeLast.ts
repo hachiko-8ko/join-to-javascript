@@ -1,7 +1,7 @@
 import { Enumerable } from '../Enumerable/Enumerable';
 
 /**
- * skipLast_q_: Returns a new enumerable collection that contains the last count elements from source
+ * takeLast_q_: Returns a new enumerable collection that contains the last count elements from source
  */
 export function takeLast<T>(this: Enumerable<T>, count: number): Enumerable<T> {
     // This is another one which is technically deferred execution, but there's no way to take the last n items
