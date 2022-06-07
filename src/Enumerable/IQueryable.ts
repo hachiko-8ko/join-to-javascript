@@ -39,7 +39,7 @@ export interface IQueryable<T> {
     elementAt_q_(index: number): T;
     elementAtOrDefault_q_(index: number): T | undefined;
     elementAtOrDefault_q_(index: number, defaultValue: T): T;
-    empty_q_(): T[];
+    empty_q_(): Enumerable<T>;
     except_q_(second: Iterable<T>, comparer?: IEqualityComparer<T>): Enumerable<T>;
     exceptBy_q_<TKey>(second: Iterable<T>, keySelector: IFunc1<T, TKey>, comparer?: IEqualityComparer<TKey>): Enumerable<T>;
     first_q_(filterFunction?: IPredicate1<T>): T;
