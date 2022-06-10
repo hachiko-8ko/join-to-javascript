@@ -25,8 +25,9 @@ export interface IQueryable<T> {
     all_q_(filterFunction: IPredicate1<T>): boolean;
     all_q_(filterFunction: IPredicate2<T, number>): boolean;
     any_q_(filterFunction?: IPredicate1<T>): boolean;
+    any_q_(filterFunction: IPredicate2<T, number>): boolean;
     append_q_(item: T): Enumerable<T>;
-    average_q_(transformFunction?: IFunc1<T, number>): number;
+    average_q_(transformFunction?: IFunc1<T, number>): number | undefined;
     cast_q_<R>(selectFunction: IFunc1<T, R>): Enumerable<R>;
     chunk_q_(size: number): Enumerable<Array<T>>;
     concat_q_(second: Iterable<T>): Enumerable<T>;
@@ -43,8 +44,9 @@ export interface IQueryable<T> {
     except_q_(second: Iterable<T>, comparer?: IEqualityComparer<T>): Enumerable<T>;
     exceptBy_q_<TKey>(second: Iterable<T>, keySelector: IFunc1<T, TKey>, comparer?: IEqualityComparer<TKey>): Enumerable<T>;
     first_q_(filterFunction?: IPredicate1<T>): T;
-    firstOrDefault_q_(filterFunction?: IPredicate1<T>): T | undefined;
-    firstOrDefault_q_(filterFunction: IPredicate1<T>, defaultValue: T): T;
+    first_q_(filterFunction?: IPredicate2<T, number>): T;
+    firstOrDefault_q_(filterFunction?: IPredicate1<T> | IPredicate2<T, number>): T | undefined;
+    firstOrDefault_q_(filterFunction: IPredicate1<T> | IPredicate2<T, number>, defaultValue: T): T;
     // This acts as firstOrDefault() || defaultValue. See comments in FirstOrDefault.ts.
     firstOrDefault_q_({ defaultValue }: { defaultValue: T }): T;
     // Here's a massive blob of overloads. Most of them are redundant.
@@ -69,8 +71,9 @@ export interface IQueryable<T> {
     join_q_<TKey, TSecond>(second: Iterable<TSecond>, firstKeySelector: IFunc1<T, TKey>, secondKeySelector: IFunc1<TSecond, TKey>, comparer?: IEqualityCompareObject<TKey>): Enumerable<[T, TSecond]>;
     join_q_<TKey, TSecond, TResult = ([T, TSecond])>(second: Iterable<TSecond>, firstKeySelector: IFunc1<T, TKey>, secondKeySelector: IFunc1<TSecond, TKey>, outputFunction?: IFunc2<T, TSecond, TResult>, comparer?: IEqualityComparer<TKey>): Enumerable<TResult>;
     last_q_(filterFunction?: IPredicate1<T>): T;
-    lastOrDefault_q_(filterFunction?: IPredicate1<T>): T | undefined;
-    lastOrDefault_q_(filterFunction: IPredicate1<T>, defaultValue: T): T;
+    last_q_(filterFunction?: IPredicate2<T, number>): T;
+    lastOrDefault_q_(filterFunction?: IPredicate1<T> | IPredicate2<T, number>): T | undefined;
+    lastOrDefault_q_(filterFunction: IPredicate1<T> | IPredicate2<T, number>, defaultValue: T): T;
     lastOrDefault_q_({ defaultValue }: { defaultValue: T }): T;
     // This will fail if run on a browser that doesn't support ECMASCript 2020
     longCount_q_(filterFunction?: IPredicate1<T>): BigInt;
@@ -112,8 +115,9 @@ export interface IQueryable<T> {
         outputFunction?: IFunc2<T, TElement, R>): Enumerable<R>;
     sequenceEqual_q_(second: Iterable<T>, comparer?: IEqualityComparer<T>): boolean;
     single_q_(matchFunction?: IPredicate1<T>): T;
-    singleOrDefault_q_(matchFunction?: IPredicate1<T>): T | undefined;
-    singleOrDefault_q_(matchFunction: IPredicate1<T>, defaultValue: T): T;
+    single_q_(matchFunction?: IPredicate2<T, number>): T;
+    singleOrDefault_q_(matchFunction?: IPredicate1<T> | IPredicate2<T, number>): T | undefined;
+    singleOrDefault_q_(matchFunction: IPredicate1<T> | IPredicate2<T, number>, defaultValue: T): T;
     singleOrDefault_q_({ defaultValue }: { defaultValue: T }): T;
     skip_q_(count: number): Enumerable<T>;
     skipLast_q_(count: number): Enumerable<T>;

@@ -84,6 +84,7 @@ declare global {
         asQueryable<T>(): Enumerable<T>;
     }
     interface String {
+        tryGetNonEnumeratedCount_q_(obj?: { value?: number }): boolean;
         asQueryable(): Enumerable<string>;
     }
     interface Number {
@@ -94,6 +95,13 @@ declare global {
     }
 }
 
+String.prototype.tryGetNonEnumeratedCount_q_ = function _tryGetNonEnumeratedCount_q_(obj?: { value?: number }): boolean {
+    // there are no out variables in JS, so we have to put it in an object reference.
+    if (obj) {
+        obj.value = this.length;
+    }
+    return true;
+};
 Array.prototype.tryGetNonEnumeratedCount_q_ = function _tryGetNonEnumeratedCount_q_(obj?: { value?: number }): boolean {
     // there are no out variables in JS, so we have to put it in an object reference.
     if (obj) {
