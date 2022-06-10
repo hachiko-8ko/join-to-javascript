@@ -71,6 +71,11 @@ export class Test004 extends TestCaseView {
             this.log(test08, true);
             assert(JSON.stringify(test08) === "[[1,2,3],[4,5,6],[7,8]]", "Chunk breaks iterable into chunks");
 
+            this.log(`[1, 2, 3, 4, 5, 6, 7, 8, 9].chunk_q_(3) // test even chunk size case`);
+            const test08a = [1, 2, 3, 4, 5, 6, 7, 8, 9].chunk_q_(3).toArray_q_();
+            this.log(test08a, true);
+            assert(JSON.stringify(test08a) === "[[1,2,3],[4,5,6],[7,8,9]]", "Chunk breaks iterable into chunks");
+
             this.log(`orderBy_q_() and orderByDescending_q_() order by the result of a provided key selector method.`);
             this.log('');
             this.log('The result of the two orderBy methods are enumerables that have two methods not found in default Enumerables:');
@@ -186,6 +191,13 @@ export class Test004 extends TestCaseView {
 
             countVal.value = 0;
 
+            this.log(`'nothing is something worth doing'.tryGetNonEnumeratedCount_q_(countVal) // strings can also be counted without enumeration`);
+            const count1a = 'nothing is something worth doing'.tryGetNonEnumeratedCount_q_(countVal);
+            this.log([count1a, countVal.value], true);
+            assert(count1a && countVal.value === 32, "tryGetNonEnumeratedCount returned string count");
+
+            countVal.value = 0;
+
             this.log(`const squares = [1, 2, 3, 4].select_q_(s => s ** 2); squares.tryGetNonEnumeratedCount_q_(countVal) // not possible as the array is buried under a generator`);
             const squares = [1, 2, 3, 4].select_q_(s => s ** 2);
             const count2 = squares.tryGetNonEnumeratedCount_q_(countVal);
@@ -201,13 +213,13 @@ export class Test004 extends TestCaseView {
             assert(count3 && countVal.value === enumeratedCount, 'tryGetNonEnumeratedCount could get from backup');
 
             this.log("LINQ doesn't give a way to execute an operation without returning results, but JOIN provides forEach");
-            this.log("const forEachTest: string[] = [];\n[1, 2, 3].forEach((item, idx) => { forEachTest.push(`${idx}=${item}`); });");
+            this.log("const forEachTest: string[] = [];\n[1, 2, 3].select_q_(s => s * s).forEach((item, idx) => { forEachTest.push(`${idx}=${item}`); });");
             const forEachTest: string[] = [];
-            [1, 2, 3].forEach((item, idx) => {
+            [1, 2, 3].select_q_(s => s * s).forEach_q_((item, idx) => {
                 forEachTest.push(`${idx}=${item}`);
             });
             this.log(forEachTest, true);
-            assert(forEachTest.sequenceEqual_q_(["0=1", "1=2", "2=3"]), "ForEach looped through iterable");
+            assert(forEachTest.sequenceEqual_q_(["0=1", "1=4", "2=9"]), "ForEach looped through iterable");
 
             this.log(`TEST ${this.viewModel.testNumber}: Test successful`);
         } catch (err) {

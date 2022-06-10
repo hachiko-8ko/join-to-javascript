@@ -3,7 +3,7 @@ import { Enumerable } from '../Enumerable/Enumerable';
 import { IFunc1, IFunc2 } from '../Types/DelegateInterfaces';
 
 /**
- * minBy_q_: Returns the maximum value in a sequence using a key selector function.
+ * minBy_q_: Returns the minimum value in a sequence using a key selector function.
  * Takes an optional comparer, a function that takes two inputs and returns 1 if the first is higher, -1 is the second is higher,
  * else 0.
  * 

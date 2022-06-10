@@ -8,7 +8,7 @@ export function sum<T>(this: Enumerable<T>, selectFunction?: IFunc1<T, number>):
     let sumval: number = 0;
     for (const item of this) {
         if (selectFunction) {
-            const valueToAdd = + selectFunction(item);
+            const valueToAdd = selectFunction(item);
             if (isNaN(valueToAdd)) {
                 throw new Error("Sequence contains invalid number after transformation");
             }

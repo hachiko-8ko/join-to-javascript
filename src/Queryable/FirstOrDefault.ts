@@ -1,9 +1,11 @@
 import { Enumerable } from '../Enumerable/Enumerable';
-import { IPredicate1 } from '../Types/DelegateInterfaces';
+import { IPredicate1, IPredicate2 } from '../Types/DelegateInterfaces';
 
 /**
  * firstOrDefault_q_: Returns the first element in a sequence.
  * optional filter condition can be supplied
+ * This condition can optionally take the index as the second argument (this is not provided by the C# version)
+ *
  * If the filtered sequence is empty, it returns the default value.
  * The default value is provided by a parameter or is undefined.
  *
@@ -22,8 +24,8 @@ import { IPredicate1 } from '../Types/DelegateInterfaces';
  * The only to make it work is to call like this:
  *      arrayOfPredicates.firstOrDefault_q_({ defaultValue: something })
  */
-export function firstOrDefault<T>(this: Enumerable<T>, matchFunction?: IPredicate1<T> | { defaultValue: T }, defaultValue?: T): T | undefined {
-    let tester: IPredicate1<T> | undefined;
+export function firstOrDefault<T>(this: Enumerable<T>, matchFunction?: IPredicate1<T> | IPredicate2<T, number> | { defaultValue: T }, defaultValue?: T): T | undefined {
+    let tester: IPredicate1<T> | IPredicate2<T, number> | undefined;
     if (matchFunction && typeof matchFunction === "function") {
         tester = matchFunction;
     }
@@ -35,10 +37,11 @@ export function firstOrDefault<T>(this: Enumerable<T>, matchFunction?: IPredicat
         def = defaultValue;
     }
 
+    let index = 0;
     for (const item of this) {
         if (!tester) {
             return item;
-        } else if (tester(item)) {
+        } else if ((tester as IPredicate2<T, number>)(item, index++)) {
             return item;
         }
     }

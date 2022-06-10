@@ -46,6 +46,11 @@ export class Test005 extends TestCaseView {
             this.log(test05, true);
             assert(test05, 'All is true');
 
+            this.log(`[1, 3, 5].all_q_((num: number, idx: number) => idx < 1) // check if index of all is less than 1 (kind of BS test)`);
+            const test05a = [1, 3, 5].all_q_((num: number, idx: number) => idx < 1);
+            this.log(test05a, true);
+            assert(!test05a, 'All is false with index');
+
             this.log(`[1, 2, 3].any_q_() // does sequence have anything`);
             const test06 = [1, 2, 3].any_q_();
             this.log(test06, true);
@@ -61,15 +66,25 @@ export class Test005 extends TestCaseView {
             this.log(test08, true);
             assert(!test08, 'Any with filter and no match');
 
+            this.log(`[1, 3].any_q_((num: number, idx: number) => idx > 10) check if index on any is greater than 10 (kind of BS test)`);
+            const test08a = [1, 3].any_q_((num: number, idx: number) => idx > 10);
+            this.log(test08a, true);
+            assert(!test08a, 'Any with filter and index');
+
             this.log(`[1, 2, 3].contains_q_(3) // is element in sequence`);
             const test09 = [1, 2, 3].contains_q_(3);
             this.log(test09, true);
             assert(test09, 'Contains with match');
 
-            this.log(`[1, 2, 3].contains_q_(4) // no match`);
-            const test10 = [1, 2, 3].contains_q_(4);
+            this.log(`["a", "b", "c"].contains_q_("B") // no match`);
+            const test10 = ["a", "b", "c"].contains_q_("B");
             this.log(test10, true);
             assert(!test10, 'Contains with no match');
+
+            this.log(`["a", "b", "c"].contains_q_("B") // no match`);
+            const test10a = ["a", "b", "c"].contains_q_("B", (x, y) => x.toUpperCase() === y.toUpperCase());
+            this.log(test10a, true);
+            assert(test10a, 'Contains with custom equality');
 
             this.log(`[1, 2, 2, -2].count_q_() // 4`);
             const test11 = [1, 2, 2, -2].count_q_();
@@ -101,10 +116,15 @@ export class Test005 extends TestCaseView {
             this.log(test16, true);
             assert(test16 === 30, 'Sum with transformation');
 
-            this.log(`[1, 3, 4, 4].average_q_() // 3 ... throws if empty, can't divide by zero`);
-            const test17 = [1, 3, 4, 4].average_q_();
+            this.log(`[1, 3, 4, 4, , undefined].average_q_() // 3 ... throws if empty, can't divide by zero`);
+            const test17 = [1, 3, 4, 4, , undefined].average_q_();
             this.log(test17, true);
             assert(test17 === 3, 'Average sequence');
+
+            this.log(`[undefined].average_q_() // LINQ says to ignore nulls in nullable numbers, and if all are null, return null`);
+            const test17a = [undefined].average_q_();
+            this.log(test17a, true);
+            assert(test17a === undefined, 'Average a null sequence');
 
             this.log(`[2, 3, 4].first_q_() // 2`);
             const test18 = [2, 3, 4].first_q_();
@@ -117,6 +137,11 @@ export class Test005 extends TestCaseView {
             this.log(test19, true);
             assert(test19 === 4, 'First with filter');
 
+            this.log(`[1, 1, 2, 3, 4].first_q_((q: number, idx: number) => idx === 3) // the filter condition can take index as a parameter (another BS test)`);
+            const test19a = [1, 1, 2, 3, 4].first_q_((q: number, idx: number) => idx === 3);
+            this.log(test19a, true);
+            assert(test19a === 3, 'First with filter on index');
+
             this.log(`[2, 3, 4].first_q_(q => q > 100) // this will throw because there are no matches`);
             let throw1 = false;
             try {
@@ -127,9 +152,14 @@ export class Test005 extends TestCaseView {
             assert(throw1, 'First threw');
 
             this.log(`[2, 3, 4].firstOrDefault_q_(q => q > 100, -1) // this will return the value provided (or undefined if none) instead of throwing`);
-            const test20 = [2, 3, 4].firstOrDefault_q_(q => q > 100, -1);
+            const test20 = [2, 3, 4].firstOrDefault_q_((q: number) => q > 100, -1);
             this.log(test20, true);
             assert(test20 === -1, 'FirstOrDefault with default');
+
+            this.log(`[1, 1, 2, 3, 4].firstOrDefault_q_((q: number, idx: number) => idx === 3) // also takes filter with index`);
+            const test20a = [1, 1, 2, 3, 4].firstOrDefault_q_((q: number, idx: number) => idx === 3);
+            this.log(test20a, true);
+            assert(test20a === 3, 'FirstOrDefault with filter on index');
 
             this.log("Sometimes this API isn't as clean as the C# API because type checking in JS is ambiguous and because parameters don't actually have names.");
             this.log("In this case, when called with a single input, it's not possible if this is the optional filter or the optional default. It's assumed to be the filter.");
@@ -149,6 +179,11 @@ export class Test005 extends TestCaseView {
             this.log(test23, true);
             assert(test23 === 'fourth', 'Last with filter');
 
+            this.log(`['first', 'second', 'third', 'fourth', 'last'].last_q_((q: string, idx: number) => idx < 3) // last filter also allows index`);
+            const test23a = ['first', 'second', 'third', 'fourth', 'last'].last_q_((q: string, idx: number) => idx < 3);
+            this.log(test23a, true);
+            assert(test23a === 'third', 'Last with filter and index');
+
             this.log(`['first', 'second', 'third'].last_q_(q => q.length > 100) // just like with first() this will throw`);
             let throw2 = false;
             try {
@@ -159,9 +194,14 @@ export class Test005 extends TestCaseView {
             assert(throw2, "Last throws on empty sequence");
 
             this.log(`['first', 'second', 'third', 'fourth', 'last'].lastOrDefault_q_(q => q[0] === "X", "default") // doesn't throw, instead returns default`);
-            const test24 = ['first', 'second', 'third', 'fourth', 'last'].lastOrDefault_q_(q => q[0] === "X", "default");
+            const test24 = ['first', 'second', 'third', 'fourth', 'last'].lastOrDefault_q_((q: string) => q[0] === "X", "default");
             this.log(test24, true);
             assert(test24 === 'default', 'LastOrDefault with default');
+
+            this.log(`['first', 'second', 'third', 'fourth', 'last'].lastOrDefault_q_((q: string, idx: number) => idx < 3) // filter also allows index`);
+            const test24a = ['first', 'second', 'third', 'fourth', 'last'].lastOrDefault_q_((q: string, idx: number) => idx < 3);
+            this.log(test24a, true);
+            assert(test24a === 'third', 'Last with filter and index');
 
             this.log(`[].lastOrDefault_q_({ defaultValue: "default" }) // just like with first, passing only default value`);
             const test25 = ([] as string[]).lastOrDefault_q_({ defaultValue: "default" });
@@ -179,6 +219,11 @@ export class Test005 extends TestCaseView {
             this.log(test27, true);
             assert(test27 === 2, 'Single with filter');
 
+            this.log(`[1, 2].single_q_((q: number, idx: number) => idx === 0) // filter function can take index`);
+            const test27a = [1, 2].single_q_((q: number, idx: number) => idx === 0);
+            this.log(test27a, true);
+            assert(test27a === 1, 'Single with filter and index');
+
             this.log(`[1, 2, 3, 4].single_q_(q => q < 3) // single throws if there are multiple matches`);
             let throw4 = false;
             try {
@@ -188,10 +233,10 @@ export class Test005 extends TestCaseView {
             }
             assert(throw4, 'Single throws when multiple returned');
 
-            this.log(`[1, 2, 3, 4].single_q_(q => q > 10000) // Like first() and last(), single() throws on an empty sequence`);
+            this.log(`[].single_q_() // Like first() and last(), single() throws on an empty sequence`);
             let throw3 = false;
             try {
-                [1, 2].single_q_();
+                [].single_q_();
             } catch {
                 throw3 = true;
             }
@@ -206,13 +251,18 @@ export class Test005 extends TestCaseView {
             assert(throw5, 'Single throws on empty sequence with filter');
 
             this.log(`[1, 2, 3, 4].singleOrDefault_q_(q => q > 1000, -1) // singleOrDefault supplies default value for empty sequence, still throws if multiple`);
-            const test28 = [1, 2, 3, 4].singleOrDefault_q_(q => q > 1000, -1);
+            const test28 = [1, 2, 3, 4].singleOrDefault_q_((q: number) => q > 1000, -1);
             this.log(test28, true);
             assert(test28 === -1, "Default returned for singleOrDefault");
 
+            this.log(`[1, 2].singleOrDefault_q_((q: number, idx: number) => idx === 0) // filter function can take index`);
+            const test28a = [1, 2].singleOrDefault_q_((q: number, idx: number) => idx === 0);
+            this.log(test28a, true);
+            assert(test28a === 1, 'Single with filter and index');
+
             let throw6 = false;
             try {
-                [1, 2, 3, 4].singleOrDefault_q_(q => q % 2 === 0);
+                [1, 2, 3, 4].singleOrDefault_q_((q: number) => q % 2 === 0);
             } catch {
                 throw6 = true;
             }

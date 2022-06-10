@@ -1,4 +1,4 @@
-import { IComparer, CompareResult, defaultComparer, extractComparer } from './../Types/IComparer';
+import { IComparer, CompareResult, defaultComparer, extractComparer, ICompareFunction } from './../Types/IComparer';
 import { Enumerable } from './Enumerable';
 import { IQueryable } from './IQueryable';
 import { IFunc1, IFunc2 } from '../Types/DelegateInterfaces';
@@ -20,11 +20,11 @@ export interface IOrderedEnumerable<T> extends Enumerable<T> {
 }
 
 export class OrderedEnumerable<T> extends Enumerable<T> implements IOrderedEnumerable<T>  {
-    private _sorters: Array<{ orderBy: IFunc1<T, any>, comparer?: IComparer<any>, descending: boolean }> = [];
+    private _sorters: Array<{ orderBy: IFunc1<T, any>, comparer?: ICompareFunction<any>, descending: boolean }> = [];
 
     constructor(data: IterableIterator<T> | Enumerable<T>, orderBy: IFunc1<T, any>, comparer?: IComparer<any>, descending: boolean = false) {
         super(data);
-        this._sorters.push({ orderBy, comparer, descending: descending });
+        this._sorters.push({ orderBy, comparer: extractComparer(comparer), descending: descending });
     }
 
     *[Symbol.iterator](): IterableIterator<T> {
@@ -50,7 +50,7 @@ export class OrderedEnumerable<T> extends Enumerable<T> implements IOrderedEnume
             orderBy = ((o: T) => o);
         }
 
-        this._sorters.push({ orderBy, comparer, descending: false });
+        this._sorters.push({ orderBy, comparer: extractComparer(comparer), descending: false });
         return this;
     }
 
@@ -58,12 +58,12 @@ export class OrderedEnumerable<T> extends Enumerable<T> implements IOrderedEnume
         if (!orderBy) {
             orderBy = ((o: T) => o);
         }
-        this._sorters.push({ orderBy, comparer, descending: true });
+        this._sorters.push({ orderBy, comparer: extractComparer(comparer), descending: true });
         return this;
     }
 }
 
-function buildSorter<T, TKey>(keySelector: IFunc1<T, TKey>, comparer?: IComparer<any>, descending: boolean = false, initial?: (x: T, y: T) => CompareResult): (x: T, y: T) => CompareResult {
+function buildSorter<T, TKey>(keySelector: IFunc1<T, TKey>, comparer?: ICompareFunction<any>, descending: boolean = false, initial?: (x: T, y: T) => CompareResult): (x: T, y: T) => CompareResult {
     let compare = extractComparer(comparer);
     if (!compare) {
         compare = defaultComparer;
