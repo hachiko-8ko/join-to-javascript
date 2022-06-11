@@ -3,7 +3,7 @@ import { IFunc1 } from '../Types/DelegateInterfaces';
 import { extractEqualityComparer, IEqualityComparer } from './../Types/IEqualityComparer';
 
 /**
- * except_q_: Produces the set difference of two sequences based on keys (distinct keys) returned by a key selector function.
+ * exceptBy_q_: Produces the set difference of two sequences based on keys (distinct keys) returned by a key selector function.
  * optional equality comparer can be used to compare values
  */
 export function exceptBy<T, TKey>(this: Enumerable<T>, second: Iterable<T>, keySelector: IFunc1<T, TKey>, comparer?: IEqualityComparer<TKey>): Enumerable<T> {

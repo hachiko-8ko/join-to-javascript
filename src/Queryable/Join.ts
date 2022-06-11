@@ -48,8 +48,8 @@ export function join<T, TKey, TSecond, TResult = ([T, TSecond])>(this: Enumerabl
         // If it is a generator, it can't be restarted to allow that.
         const rightGen = new RestartableGenerator(second);
         for (const leftItem of data) {
+            const leftKey = firstKeySelector(leftItem);
             for (const rightItem of rightGen) {
-                const leftKey = firstKeySelector(leftItem);
                 const rightKey = secondKeySelector(rightItem);
                 let match = false;
                 if (equalizer) {
