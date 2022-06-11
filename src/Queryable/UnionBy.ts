@@ -3,11 +3,11 @@ import { Enumerable } from '../Enumerable/Enumerable';
 import { extractEqualityComparer, IEqualityComparer } from '../Types/IEqualityComparer';
 
 /**
- * union_q_: concatenates two sequences returning the set sequence  based on keys returned by a key selector function.
+ * unionBy_q_: concatenates two sequences returning the set sequence based on keys returned by a key selector function.
  * optional equality comparer can be supplied to compare values
  */
 export function unionBy<T, TKey>(this: Enumerable<T>, second: Iterable<T>, keySelector: IFunc1<T, TKey>, comparer?: IEqualityComparer<TKey>): Enumerable<T> {
-    if (!second) {
+    if (!second || !keySelector) {
         throw new Error("Required argument is null");
     }
     const compare = extractEqualityComparer(comparer);

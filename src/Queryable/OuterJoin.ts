@@ -47,8 +47,8 @@ export function outerJoin<T, TKey, TSecond, TResult = ([T, TSecond])>(this: Enum
         const rightGen = new RestartableGenerator(second);
         for (const leftItem of data) {
             let leftMatched = false;
+            const leftKey = firstKeySelector(leftItem);
             for (const rightItem of rightGen) {
-                const leftKey = firstKeySelector(leftItem);
                 const rightKey = secondKeySelector(rightItem);
                 let match = false;
                 if (equalizer) {

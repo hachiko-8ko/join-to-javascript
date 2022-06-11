@@ -27,7 +27,7 @@ export function fullJoin<T, TSecond, R = ([Nullable<T>, Nullable<TSecond>])>(thi
         // If this were SQL server, some analysis and pre-filtering could be done before comparison.
         // This isn't SQL Server. We can't even filter out NULLs, because what if the join function says "left == null && right == null", like some linq to entity queries do?
 
-        // We need a place to track a;l items in the right that got sent
+        // We need a place to track all items in the right that got sent
         const sentRights: Set<TSecond> = new Set();
 
         // We need the ability to check the right side against every left side.
