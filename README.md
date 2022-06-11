@@ -9,6 +9,8 @@ Only LINQs fluent syntax is included. You would need to be able to make custom o
 
 [System.Linq Documentation](https://docs.microsoft.com/sv-SE/dotnet/api/system.linq.enumerable?view=net-6.0)
 
+See [JOIN to Python](https://github.com/hachiko-8ko/join-to-python) for a different implementation.
+
 ### Caveats
 
 Arrays have had prototype modifications to allow the same methods found on the Enumerable class to appear. This makes it easier to code, but creates a problem. Arrays already have their own methods like join() and concat() and sometimes they don't even do the same thing, so I had to use my own names. To whit, \_q\_ has 
